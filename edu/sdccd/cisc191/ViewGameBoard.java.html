@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>ViewGameBoard.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ViewGameBoard.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">edu.sdccd.cisc191</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.application.Application</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.geometry.Pos</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.geometry.Insets</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Scene</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.canvas.Canvas</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.canvas.GraphicsContext</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.BorderPane</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.Priority</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.HBox</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.VBox</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.paint.Color</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.stage.Stage</span><span class="s0">;</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Presents the user with the game graphical user interface</span>
+ <span class="s2">*/</span>
+<span class="s0">public class </span><span class="s1">ViewGameBoard </span><span class="s0">extends </span><span class="s1">Application</span>
+<span class="s1">{</span>
+    <span class="s0">private </span><span class="s1">Canvas gameCanvas</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ControllerGameBoard controller</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">GameBoardLabel fishRemaining</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">GameBoardLabel guessesRemaining</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">GameBoardLabel message</span><span class="s0">;</span>
+
+    <span class="s0">public static void </span><span class="s1">main(String[] args)</span>
+    <span class="s1">{</span>
+        <span class="s3">// TODO: launch the app</span>
+        <span class="s1">launch()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">updateHeader() {</span>
+        <span class="s3">//TODO update labels</span>
+        <span class="s1">fishRemaining.setText(</span><span class="s4">&quot;Fish: &quot; </span><span class="s1">+ controller.modelGameBoard.getFishRemaining())</span><span class="s0">;</span>
+        <span class="s1">guessesRemaining.setText(</span><span class="s4">&quot;Bait: &quot; </span><span class="s1">+ controller.modelGameBoard.getGuessesRemaining())</span><span class="s0">;</span>
+        <span class="s0">if</span><span class="s1">(controller.fishWin()) {</span>
+            <span class="s3">//&quot;Fishes win!&quot;</span>
+            <span class="s1">message.setText(</span><span class="s4">&quot;Fishes win!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">else if</span><span class="s1">(controller.playerWins()) {</span>
+            <span class="s3">//&quot;You win!&quot;</span>
+            <span class="s1">message.setText(</span><span class="s4">&quot;You win!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s3">//&quot;Find the fish!&quot;</span>
+            <span class="s1">message.setText(</span><span class="s4">&quot;Find the fish!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">start(Stage stage) </span><span class="s0">throws </span><span class="s1">Exception {</span>
+        <span class="s1">controller = </span><span class="s0">new </span><span class="s1">ControllerGameBoard()</span><span class="s0">;</span>
+        <span class="s3">// TODO initialize gameCanvas</span>
+        <span class="s1">gameCanvas = </span><span class="s0">new </span><span class="s1">Canvas()</span><span class="s0">;</span>
+        <span class="s1">fishRemaining = </span><span class="s0">new </span><span class="s1">GameBoardLabel()</span><span class="s0">;</span>
+        <span class="s1">guessesRemaining = </span><span class="s0">new </span><span class="s1">GameBoardLabel()</span><span class="s0">;</span>
+        <span class="s1">message = </span><span class="s0">new </span><span class="s1">GameBoardLabel()</span><span class="s0">;</span>
+
+        <span class="s3">// TODO display game there are infinite ways to do this, I used BorderPane with HBox and VBox.</span>
+        <span class="s1">HBox labelBar = </span><span class="s0">new </span><span class="s1">HBox(</span><span class="s5">30</span><span class="s0">, </span><span class="s1">fishRemaining</span><span class="s0">, </span><span class="s1">guessesRemaining</span><span class="s0">, </span><span class="s1">message)</span><span class="s0">;</span>
+        <span class="s1">labelBar.setAlignment(Pos.CENTER)</span><span class="s0">;</span>
+
+        <span class="s1">VBox columnContainer = </span><span class="s0">new </span><span class="s1">VBox()</span><span class="s0">;</span>
+
+        <span class="s1">BorderPane root = </span><span class="s0">new </span><span class="s1">BorderPane()</span><span class="s0">;</span>
+        <span class="s1">root.setTop(labelBar)</span><span class="s0">;</span>
+        <span class="s1">root.setCenter(columnContainer)</span><span class="s0">;</span>
+        <span class="s1">root.setMargin(columnContainer</span><span class="s0">, new </span><span class="s1">Insets(</span><span class="s5">10</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s1">updateHeader()</span><span class="s0">;</span>
+
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">row=</span><span class="s5">0</span><span class="s0">; </span><span class="s1">row &lt; ModelGameBoard.DIMENSION</span><span class="s0">; </span><span class="s1">row++) {</span>
+            <span class="s3">// TODO: create row container</span>
+            <span class="s1">HBox rowContainer = </span><span class="s0">new </span><span class="s1">HBox()</span><span class="s0">;</span>
+            <span class="s1">rowContainer.setSpacing(</span><span class="s5">5</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">rowContainer.setAlignment(Pos.CENTER)</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">col=</span><span class="s5">0</span><span class="s0">; </span><span class="s1">col &lt; ModelGameBoard.DIMENSION</span><span class="s0">; </span><span class="s1">col++) {</span>
+                <span class="s1">GameBoardButton button = </span><span class="s0">new </span><span class="s1">GameBoardButton(row</span><span class="s0">, </span><span class="s1">col</span><span class="s0">, </span><span class="s1">controller.modelGameBoard.fishAt(row</span><span class="s0">,</span><span class="s1">col))</span><span class="s0">;</span>
+                <span class="s0">int </span><span class="s1">finalRow = row</span><span class="s0">;</span>
+                <span class="s0">int </span><span class="s1">finalCol = col</span><span class="s0">;</span>
+                <span class="s1">button.setOnAction(e -&gt; {</span>
+                    <span class="s1">controller.makeGuess(finalRow</span><span class="s0">, </span><span class="s1">finalCol)</span><span class="s0">;</span>
+                    <span class="s0">if</span><span class="s1">(!controller.isGameOver()) {</span>
+                        <span class="s1">button.handleClick()</span><span class="s0">;</span>
+                        <span class="s1">updateHeader()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+                <span class="s3">// TODO: add button to row</span>
+                <span class="s1">rowContainer.getChildren().add(button)</span><span class="s0">;</span>
+                <span class="s1">rowContainer.setHgrow(button</span><span class="s0">, </span><span class="s1">Priority.ALWAYS)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s3">// TODO: add row to column</span>
+            <span class="s1">columnContainer.getChildren().add(rowContainer)</span><span class="s0">;</span>
+            <span class="s1">columnContainer.setSpacing(</span><span class="s5">5</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">columnContainer.setAlignment(Pos.CENTER)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s3">// TODO: create scene, stage, set title, and show</span>
+        <span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root</span><span class="s0">, </span><span class="s5">400</span><span class="s0">, </span><span class="s5">400</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">stage.setScene(scene)</span><span class="s0">;</span>
+        <span class="s1">stage.setTitle(</span><span class="s4">&quot;Gone Fishing&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">stage.show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
